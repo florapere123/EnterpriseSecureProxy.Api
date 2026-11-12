@@ -1,0 +1,117 @@
+# -----------------------------------------------------------------------------
+# Enterprise Secure Proxy — .gitignore
+# -----------------------------------------------------------------------------
+
+# --- Visual Studio & Cursor / VS Code ---
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.cache
+*.lock
+
+# --- .NET / C# build outputs ---
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Ll]og/
+[Ll]ogs/
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.ipdb
+*.log
+*.tlog
+*.cache
+*.pch
+*.sbr
+*.tlb
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+*.nupkg
+*.snupkg
+
+# Publish / publish profiles (local)
+publish/
+*.pubxml
+*.publishproj
+PublishScripts/
+
+# Test / coverage
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
+coverage*.json
+coverage*.xml
+coverage*.info
+*.coverage
+*.coveragexml
+
+# --- Application logs & local databases ---
+api-run.log
+api-sql-run.log
+*.log
+*.db
+*.db-shm
+*.db-wal
+*.mdf
+*.ldf
+*.ndf
+
+# --- OS-specific ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# --- Secrets & local config overrides (never commit) ---
+secrets.json
+appsettings.*.local.json
+*.Development.local.json
+.env
+.env.*
+!.env.example
+
+# --- IDE / tool caches ---
+.idea/
+*.rsuser
+*.sln.iml
+.cursor/
+
+# --- Misc ---
+*.swp
+*~
+*.bak

@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/tests/">
+    <Project Path="tests/EnterpriseSecureProxy.Tests/EnterpriseSecureProxy.Tests.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/EnterpriseSecureProxy.Api/EnterpriseSecureProxy.Api.csproj" />
+    <Project Path="src/EnterpriseSecureProxy.Application/EnterpriseSecureProxy.Application.csproj" />
+    <Project Path="src/EnterpriseSecureProxy.Domain/EnterpriseSecureProxy.Domain.csproj" />
+    <Project Path="src/EnterpriseSecureProxy.Infrastructure/EnterpriseSecureProxy.Infrastructure.csproj" />
+  </Folder>
+</Solution>
