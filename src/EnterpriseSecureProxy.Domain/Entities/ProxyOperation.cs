@@ -9,6 +9,8 @@ namespace EnterpriseSecureProxy.Domain.Entities;
 /// </summary>
 public sealed class ProxyOperation
 {
+    public const int DefaultMaxRequestSizeBytes = 1_048_576;
+
     public Guid Id { get; init; }
 
     /// <summary>
@@ -36,9 +38,18 @@ public sealed class ProxyOperation
 
     public bool IsEnabled { get; init; } = true;
 
-    public int MaxRequestSize { get; init; } = 1_048_576;
+    public int MaxRequestSize { get; init; } = DefaultMaxRequestSizeBytes;
+
+    /// <summary>Optional per-operation outbound timeout; falls back to destination timeout when unset.</summary>
+    public TimeSpan? Timeout { get; init; }
 
     public bool RequiresEncryption { get; init; }
+
+    /// <summary>When true, inbound parameters not covered by a <see cref="ParameterRule"/> are allowed.</summary>
+    public bool AllowUnknownParameters { get; init; }
+
+    /// <summary>When true, DELETE operations may be retried at the HTTP client resilience layer.</summary>
+    public bool AllowHttpClientRetryForDelete { get; init; }
 
     public string? Description { get; init; }
 
@@ -89,7 +100,10 @@ public sealed class ProxyOperation
         IReadOnlyList<string> allowedRoles,
         IReadOnlyList<ParameterRule> parameterRules,
         IReadOnlyList<HeaderRule> headerRules,
-        string? description = null)
+        string? description = null,
+        bool allowUnknownParameters = false,
+        bool allowHttpClientRetryForDelete = false,
+        TimeSpan? timeout = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(operationKey);
         ArgumentException.ThrowIfNullOrWhiteSpace(destinationName);
@@ -109,7 +123,10 @@ public sealed class ProxyOperation
             AllowedRoles = allowedRoles,
             ParameterRules = parameterRules,
             HeaderRules = headerRules,
-            Description = description
+            Description = description,
+            AllowUnknownParameters = allowUnknownParameters,
+            AllowHttpClientRetryForDelete = allowHttpClientRetryForDelete,
+            Timeout = timeout
         };
     }
 

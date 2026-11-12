@@ -7,6 +7,23 @@ namespace EnterpriseSecureProxy.Domain.Entities;
 /// </summary>
 public sealed class HeaderRule
 {
+    /// <summary>
+    /// OWASP Broken Access Control: sensitive hop-by-hop headers cannot be set to forward at config time.
+    /// </summary>
+    public static readonly IReadOnlySet<string> NeverForwardableHeaders = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    {
+        "Authorization",
+        "Cookie",
+        "Set-Cookie",
+        "Proxy-Authorization",
+        "Host",
+        "Connection",
+        "Transfer-Encoding",
+        "Content-Length",
+        "Upgrade",
+        "TE"
+    };
+
     public Guid Id { get; init; }
 
     public string Name { get; init; } = string.Empty;
@@ -28,6 +45,7 @@ public sealed class HeaderRule
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ValidateInjectedValue(mode, injectedValue);
+        RejectForwardOfDenylistedHeader(name.Trim(), mode);
 
         return new HeaderRule
         {
@@ -67,5 +85,24 @@ public sealed class HeaderRule
         {
             throw new ArgumentException("InjectedValue is required when mode is Inject.", nameof(injectedValue));
         }
+
+        // OWASP Injection: a CR/LF in an injected value could smuggle extra headers into the outbound request.
+        if (injectedValue is not null && (injectedValue.Contains('\r') || injectedValue.Contains('\n')))
+        {
+            throw new InvalidOperationException(
+                "InjectedValue must not contain CR or LF characters; header injection is not permitted.");
+        }
     }
+
+    private static void RejectForwardOfDenylistedHeader(string name, HeaderRuleMode mode)
+    {
+        if (mode == HeaderRuleMode.Forward && NeverForwardableHeaders.Contains(name))
+        {
+            throw new InvalidOperationException(
+                $"Header '{name}' cannot be configured with mode Forward; it is on the non-configurable denylist.");
+        }
+    }
+
+    public static bool IsNeverForwardable(string headerName) =>
+        NeverForwardableHeaders.Contains(headerName);
 }

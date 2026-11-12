@@ -23,12 +23,16 @@ public sealed class Destination
 
     public string? Description { get; init; }
 
+    /// <summary>Optional JSON settings (permitted ports, auth profile references, etc.).</summary>
+    public string? SettingsJson { get; init; }
+
     public static Destination Create(
         string name,
         Uri baseUri,
         TimeSpan? timeout = null,
         bool isEnabled = true,
-        string? description = null)
+        string? description = null,
+        string? settingsJson = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ValidateBaseUri(baseUri);
@@ -40,7 +44,8 @@ public sealed class Destination
             BaseUri = baseUri,
             Timeout = timeout ?? TimeSpan.FromSeconds(30),
             IsEnabled = isEnabled,
-            Description = description
+            Description = description,
+            SettingsJson = settingsJson
         };
     }
 
@@ -51,7 +56,8 @@ public sealed class Destination
         Uri baseUri,
         TimeSpan timeout,
         bool isEnabled,
-        string? description = null)
+        string? description = null,
+        string? settingsJson = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         ValidateBaseUri(baseUri);
@@ -63,7 +69,8 @@ public sealed class Destination
             BaseUri = baseUri,
             Timeout = timeout,
             IsEnabled = isEnabled,
-            Description = description
+            Description = description,
+            SettingsJson = settingsJson
         };
     }
 

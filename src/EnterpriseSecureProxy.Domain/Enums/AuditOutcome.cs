@@ -13,5 +13,6 @@ public enum AuditOutcome
     PayloadTooLarge = 8,
     EncryptionInvalid = 9,
     RejectionCryptoFailure = 10,
-    ServedFromIdempotencyCache = 11
+    ServedFromIdempotencyCache = 11,
+    IdempotencyKeyReused = 12
 }
