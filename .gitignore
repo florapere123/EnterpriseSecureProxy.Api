@@ -13,6 +13,8 @@
 *.lock
 
 # --- .NET / C# build outputs ---
+**/bin/
+**/obj/
 [Bb]in/
 [Oo]bj/
 [Dd]ebug/
@@ -99,6 +101,7 @@ Desktop.ini
 
 # --- Secrets & local config overrides (never commit) ---
 secrets.json
+**/appsettings.Development.json
 appsettings.*.local.json
 *.Development.local.json
 .env
